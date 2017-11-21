@@ -27,21 +27,21 @@
                 out.println("<h1>" + u.getNombre() + "</h1>");
 
                 Data d = new Data();
-
-
         %>
 
-        Descripción:
+        <form action="buscar.do" method="post">
+            Buscar: <input type="text" name="filtro" />
+            <input type="submit" name="btnBuscar" value="Buscar"/>
+        </form>
+        <br>
+        Descripción: 
         <form action="actualizarDescripcion.do" method="post">
-            
-            <textarea name='txtDescripcion' rows='10' cols='5'>
-                <%            Perfil per = d.getPerfil(u.getId());%>
-            </textarea>
+            <%            Perfil per = d.getPerfil(u.getId());
+            %>
+            <input name="txtDescripcion" rows="5" cols="40" placeholder="Añadir una descripción" value="<%=per.getDescripcion()%>"/>
+            <input type="hidden" value="<%=u.getId()%>" name="txtIdUsuario"/>
             <input type="submit" value="Añadir" name="btnAñadirDescripcion"/>
-            <input type="hidden" value="<%=per.getId()%>" name="txtIdPerfil"/>
         </form> 
-
-
 
         Publicar:
         <form action="publicar.do" method="post" >
@@ -51,35 +51,34 @@
             <input type="submit" name="btnPublicar" value="Publicar"/>
 
         </form>
+        <br>
 
-        <table>
-            <td>
-                <%
-                        for (Publicacion p : d.getPublicaciones(u.getId())) {
 
-                            if (p.equals(null)) {
-                                out.write("No hay publicaciones para mostrar");
-                            } else {
-                                out.write("<tr>");
-                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-YYYY HH:mm");
-                                Date da = formatter.parse(p.getFecha());
+        <%
+                for (Publicacion p : d.getPublicaciones(u.getId())) {
+                    out.write("Publicado el:" + p.getFecha());
+                    out.write("<br><input type='text' value='" + p.getContenido() + "' readonly='readonly'/>");
+                }
+            }
+        %>
 
-                                /*String fechac []= da.toString().split("-");
-                            SimpleDateFormat formatterH = new SimpleDateFormat("HH:mm");
-                            Date daH = formatterH.parse(p.getFecha());
-                        
-                            out.write("Publicado el: "+ fechac[2]+" de "+fechac[1]+" del "+fechac[0]+" a las "+ daH+" hrs. <br>");
-                                 */
-                                out.write("Publicado el: " + da);
-                                out.write(p.getContenido());
-                                out.write("</tr>");
-                            }
-                        }
+
+       <!--<script src="js/jquery-3.2.1.min.js"></script>
+        <script>
+            function buscar() {
+
+                var txtFiltro = $("#txtBuscar").val();
+
+                $.ajax({
+                    url: "buscar.do",
+                    data: {
+                        filtro: txtFiltro
+                    },
+                    success: function (result) {
+                        $("#resultado").html(result);
                     }
-
-                %>
-            <td>
-        </table>
-
+                });
+            }
+        </script>-->
     </body>
 </html>

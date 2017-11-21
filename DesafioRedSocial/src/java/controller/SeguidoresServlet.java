@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
@@ -16,14 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Data;
-import model.Perfil;
+import model.Seguidores;
 
 /**
  *
  * @author Conny
  */
-@WebServlet(name = "ActualizarDescripcion", urlPatterns = {"/actualizarDescripcion.do"})
-public class ActualizarDescripcion extends HttpServlet {
+@WebServlet(name = "SeguidoresServlet", urlPatterns = {"/seguidores.do"})
+public class SeguidoresServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,20 +33,20 @@ public class ActualizarDescripcion extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            Perfil p = new Perfil();
-            
-            p.setDescripcion(request.getParameter("txtDescripcion"));
-            p.setUsuario(Integer.parseInt(request.getParameter("txtIdUsuario")));
-            
             Data d = new Data();
             
-            d.updateDescripcion(p);
-            System.out.println("update .do");
-            response.sendRedirect("Perfil.jsp");
+            int idSeguido =Integer.parseInt( request.getParameter("txtIdSeguido"));
+            int idSeguidor =Integer.parseInt( request.getParameter("txtIdSeguidor"));
             
+            System.out.println(idSeguido+"-"+idSeguidor);
+            Seguidores s = new Seguidores();
+            
+            s.setPerfilSeguido(idSeguido);
+            s.setPerfilSeguidor(idSeguidor);
+            d.crearSeguidores(s);
+            response.sendRedirect("PerfilBuscar.jsp");
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ActualizarDescripcion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SeguidoresServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

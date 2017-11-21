@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
@@ -16,14 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Data;
-import model.Perfil;
+import model.Usuario;
 
 /**
  *
  * @author Conny
  */
-@WebServlet(name = "ActualizarDescripcion", urlPatterns = {"/actualizarDescripcion.do"})
-public class ActualizarDescripcion extends HttpServlet {
+@WebServlet(name = "BuscarServlet", urlPatterns = {"/buscar.do"})
+public class BuscarServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,20 +33,24 @@ public class ActualizarDescripcion extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            Perfil p = new Perfil();
-            
-            p.setDescripcion(request.getParameter("txtDescripcion"));
-            p.setUsuario(Integer.parseInt(request.getParameter("txtIdUsuario")));
-            
+            String filtro = request.getParameter("filtro");
             Data d = new Data();
-            
-            d.updateDescripcion(p);
-            System.out.println("update .do");
-            response.sendRedirect("Perfil.jsp");
-            
+
+            Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+            if (u != null) {
+                out.println("<h1><a href='Perfil.jsp'>" + u.getNombre() + "</a></h1>");
+                for (Usuario usu : d.buscarUsuario(filtro)) {
+                    out.println("- <a href='PerfilBuscar.jsp?id=" + usu.getId() + "'>" + usu.getNombre() + "</a> ");
+                    out.println("<form action='seguidores.do' method='post'> "
+                            + "<input type='hidden' name='txtIdSeguido' value='" + usu.getId() + "' /> "
+                            + "<input type='hidden' name='txtIdSeguidor' value='" + u.getId() + "' /> "
+                            + "<input type='submit' name='btnSeguir' value='Seguir' />"
+                            + "</form>");
+                }
+            }
+
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ActualizarDescripcion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BuscarServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

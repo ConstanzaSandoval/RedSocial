@@ -8,14 +8,14 @@ public class Publicacion {
     private int id;
     private String fecha;
     private String contenido;
-    private int perfi;
+    private int usuario;
 
-    public int getPerfi() {
-        return perfi;
+    public int getUsuario() {
+        return usuario;
     }
 
-    public void setPerfi(int perfi) {
-        this.perfi = perfi;
+    public void setUsuario(int usuario) {
+        this.usuario = usuario;
     }
 
     public int getId() {

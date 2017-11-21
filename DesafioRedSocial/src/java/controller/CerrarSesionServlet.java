@@ -7,23 +7,18 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Data;
-import model.Perfil;
 
 /**
  *
  * @author Conny
  */
-@WebServlet(name = "ActualizarDescripcion", urlPatterns = {"/actualizarDescripcion.do"})
-public class ActualizarDescripcion extends HttpServlet {
+@WebServlet(name = "CerrarSesionServlet", urlPatterns = {"/cerrarSesion.do"})
+public class CerrarSesionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,20 +33,8 @@ public class ActualizarDescripcion extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            Perfil p = new Perfil();
-            
-            p.setDescripcion(request.getParameter("txtDescripcion"));
-            p.setUsuario(Integer.parseInt(request.getParameter("txtIdUsuario")));
-            
-            Data d = new Data();
-            
-            d.updateDescripcion(p);
-            System.out.println("update .do");
-            response.sendRedirect("Perfil.jsp");
-            
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ActualizarDescripcion.class.getName()).log(Level.SEVERE, null, ex);
+            request.getSession().removeAttribute("usuario");
+            response.sendRedirect("Index.jsp");
         }
     }
 

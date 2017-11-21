@@ -61,7 +61,7 @@
 
         <form action="crearUsuario.do" method="post">
             Nombre: <input type="text" name="txtNombre" required=""/><br>
-            Sexo: <select name='selSexo'>");
+            Sexo: <select name='selSexo'>
                 <%
                     Data d = new Data();
                     for (Sexo s : d.getSexos()) {

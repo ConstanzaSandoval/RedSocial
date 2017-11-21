@@ -41,7 +41,7 @@ public class Data {
 
     public void crearPublicacion(Publicacion p) throws SQLException {
 
-        query = "INSERT INTO publicaciones VALUES(null, NOW(), '" + p.getContenido() + "', '" + p.getPerfi() + "');";
+        query = "INSERT INTO publicaciones VALUES(null, NOW(), '" + p.getContenido() + "', '" + p.getUsuario() + "');";
         con.ejecutar(query);
     }
 
@@ -55,7 +55,9 @@ public class Data {
 
     public void crearSeguidores(Seguidores s) throws SQLException {
 
-        query = "INSERT INTO seguidores VALUES(null, '" + s.getPerfilSeguido() + "', '" + s.getPerfilSeguidor() + "')";
+        query = "INSERT INTO seguidores VALUES(null, "
+                + "'" + s.getPerfilSeguido() + "', "
+                + "'" + s.getPerfilSeguidor() + "')";
         con.ejecutar(query);
     }
 
@@ -79,9 +81,26 @@ public class Data {
         return u;
     }
 
+    public List<Publicacion> getPublicacionesSeguidos(int id) throws SQLException {
+        query = "SELECT publicaciones.fecha, publicaciones.contenido FROM publicaciones, seguidores, usuario, perfil "
+                + "WHERE seguidores.perfilseguido = perfil.id AND perfil.usuario = usuario.id AND seguidores.perfilseguidor = " + id;
+        rs = con.ejecutarSelect(query);
+        Publicacion p;
+        List<Publicacion> lista = new ArrayList<>();
+
+        while (rs.next()) {
+            p = new Publicacion();
+            p.setFecha(rs.getString(1));
+            p.setContenido(rs.getString(2));
+
+            lista.add(p);
+        }
+        return lista;
+    }
+
     public List<Publicacion> getPublicaciones(int id) throws SQLException {
 
-        query = "SELECT * FROM publicaciones WHERE perfil = " + id;
+        query = "SELECT * FROM publicaciones WHERE usuario = " + id;
         rs = con.ejecutarSelect(query);
 
         Publicacion p;
@@ -91,30 +110,82 @@ public class Data {
             p.setId(rs.getInt(1));
             p.setFecha(rs.getString(2));
             p.setContenido(rs.getString(3));
-            System.out.println(p.getFecha());
+            
             lista.add(p);
         }
         con.close();
         return lista;
     }
 
-    public Seguidores getSeguidores(int id) throws SQLException {
+    public List<Usuario> buscarUsuario(String buscar) throws SQLException {
+
+        query = "SELECT * FROM  usuario WHERE nombre like '%" + buscar + "%'";
+        rs = con.ejecutarSelect(query);
+        Usuario u;
+        List<Usuario> lista = new ArrayList<>();
+        while (rs.next()) {
+            u = new Usuario();
+
+            u.setId(rs.getInt(1));
+            u.setEmail(rs.getString(2));
+            u.setContrasenia(rs.getString(3));
+            u.setNombre(rs.getString(4));
+            u.setEdad(rs.getString(5));
+            u.setSexo(rs.getInt(6));
+
+            lista.add(u);
+        }
+        con.close();
+        return lista;
+    }
+
+    public Usuario getUsuario(int id) throws SQLException {
+        query = "SELECT * FROM usuario WHERE id = " + id;
+        rs = con.ejecutarSelect(query);
+        Usuario u = null;
+        while (rs.next()) {
+            u = new Usuario();
+
+            u.setId(rs.getInt(1));
+            u.setEmail(rs.getString(2));
+            u.setContrasenia(rs.getString(3));
+            u.setNombre(rs.getString(4));
+            u.setEdad(rs.getString(5));
+            u.setSexo(rs.getInt(6));
+        }
+
+        return u;
+    }
+
+    public int getCantSeguidores(int id) throws SQLException {
 
         query = "select count(seguidores.id) from seguidores, perfil where perfil.id = perfilSeguido"
                 + " AND perfil.id = " + id;
         rs = con.ejecutarSelect(query);
+        int s = 0;
 
-        Seguidores s = null;
         if (rs.next()) {
-            s = new Seguidores();
-            s.setId(rs.getInt(1));
-            s.setPerfilSeguido(Integer.parseInt(rs.getString(2)));
-            s.setPerfilSeguidor(Integer.parseInt(rs.getString(3)));
+            s = rs.getInt(1);
         }
         con.close();
         return s;
     }
 
+    public int getCantSeguidos(int id) throws SQLException {
+
+        query = "select count(seguidores.id) from seguidores, perfil where perfil.id = perfilSeguidor"
+                + " AND perfil.id = " + id;
+        rs = con.ejecutarSelect(query);
+        int s = 0;
+
+        if (rs.next()) {
+            s = rs.getInt(1);
+        }
+        con.close();
+        return s;
+    }
+
+    
     public List<Sexo> getSexos() throws SQLException {
 
         query = "SELECT * FROM sexo ";
@@ -164,7 +235,8 @@ public class Data {
 
     public void updateDescripcion(Perfil p) throws SQLException {
 
-        query = "UPDATE perfil SET descripcion = '" + p.getDescripcion() + "' WHERE id = " + p.getId();
+        query = "UPDATE perfil SET descripcion = '" + p.getDescripcion() + "' WHERE usuario = " + p.getUsuario();
+        System.out.println("update data");
         con.ejecutar(query);
     }
 
@@ -238,5 +310,4 @@ public class Data {
 //        }
 //        return false;
 //    }
-
 }

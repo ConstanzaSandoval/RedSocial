@@ -17,8 +17,6 @@ INSERT INTO sexo VALUES(null, 'Mujer');
 INSERT INTO sexo VALUES(null, 'Hombre');
 INSERT INTO sexo VALUES(null, 'Otro');
 
-
-
 CREATE TABLE usuario(
     id INT AUTO_INCREMENT,
     email VARCHAR(20),
@@ -30,12 +28,9 @@ CREATE TABLE usuario(
     PRIMARY KEY(id)
 );
 
-
-
 CREATE TABLE perfil(
     id INT AUTO_INCREMENT,
-    /*foto*/
-    
+    /*foto*/    
     descripcion VARCHAR(300),
     usuario int,
     FOREIGN KEY (usuario) REFERENCES usuario(id),
@@ -51,19 +46,23 @@ CREATE TABLE seguidores(
     PRIMARY KEY(id)
 );
 
-
 CREATE TABLE publicaciones(
     id INT AUTO_INCREMENT,
     fecha DATETIME,
     contenido VARCHAR(1000),
-    perfil int,
-    FOREIGN KEY (perfil) REFERENCES perfil(id),
+    usuario int,
+    FOREIGN KEY (usuario) REFERENCES usuario(id),
     PRIMARY KEY(id)
 );
-SELECT * FROM publicaciones WHERE perfil = 1
-select count(seguidores.id) from seguidores, perfil where perfil.id = perfilSeguido and perfil.id =
 
+SELECT publicaciones.fecha, publicaciones.contenido FROM publicaciones, seguidores, usuario, perfil 
+WHERE seguidores.perfilseguido = perfil.id AND perfil.usuario = usuario.id AND seguidores.perfilseguidor = 
 
+SELECT * FROM publicaciones WHERE usuario = 2
+select count(seguidores.id) from seguidores, perfil where perfil.id = perfilSeguido and perfil.id = 1
+select * from usuario
+select * from perfil
 
-show create table publicaciones;
-show create table perfil
+SELECT * FROM  usuario WHERE nombre like '%pa%'
+SELECT * FROM usuario WHERE id = 1
+SELECT * FROM perfil WHERE usuario = 1

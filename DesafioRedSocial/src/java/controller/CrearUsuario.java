@@ -47,7 +47,7 @@ public class CrearUsuario extends HttpServlet {
             
             String[] vectFecha = fechaN.split(" de ");
                 //d.getMes obtiene el número del mes
-                String fechaNacimiento = vectFecha[2] + "-" + d.getMes(vectFecha[1].toLowerCase()) + "-" + vectFecha[0];
+            String fechaNacimiento = vectFecha[2] + "-" + d.getMes(vectFecha[1].toLowerCase()) + "-" + vectFecha[0];
 
             
             
@@ -61,7 +61,7 @@ public class CrearUsuario extends HttpServlet {
             
             Perfil p = new Perfil();
             
-            p.setDescripcion("Añadir una descripción");
+            p.setDescripcion("  ");
             p.setUsuario(d.getIdUsuario());
             
             d.crearPerfil(p);

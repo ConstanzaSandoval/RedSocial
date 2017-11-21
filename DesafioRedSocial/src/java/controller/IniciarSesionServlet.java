@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Data;
-import model.Seguidores;
 import model.Usuario;
 
 /**
@@ -50,12 +49,6 @@ public class IniciarSesionServlet extends HttpServlet {
                 System.out.println("pasa");
                 request.getSession().setAttribute("usuario", u);
                 request.getSession().removeAttribute("error");
-                
-//                Seguidores s = new Seguidores();
-//                s.setSeguido(u.getId());
-//                s.setSeguidor(0);
-//                
-//                d.crearSeguidores(s);
                 
                 response.sendRedirect("Perfil.jsp");
             }

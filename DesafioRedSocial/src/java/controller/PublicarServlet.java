@@ -38,22 +38,20 @@ public class PublicarServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             
+            Data d = new Data();
             String texto = request.getParameter("txtPublicacion");
+            int id = Integer.parseInt(request.getParameter("idPerfil"));
             
             Publicacion p = new Publicacion();
             
             p.setContenido(texto);
-            p.setPerfi(Integer.parseInt(request.getParameter("idPerfil")));
-            Data d = new Data();
+            p.setUsuario(id);
             
             d.crearPublicacion(p);
             response.sendRedirect("Perfil.jsp");
             
-        } catch (SQLException ex) {
-            Logger.getLogger(PublicarServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(PublicarServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
