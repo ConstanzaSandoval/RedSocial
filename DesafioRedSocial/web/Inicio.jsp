@@ -22,6 +22,8 @@
         </form>
         <%                            if (u != null) {
                 out.println("<h3><a href='Perfil.jsp'>" + u.getNombre() + "</a></h3>");
+            }else{
+                response.sendRedirect("Index.jsp");
             }
         %>
 

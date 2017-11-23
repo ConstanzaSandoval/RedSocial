@@ -118,6 +118,14 @@ public class Data {
         con.close();
         return lista;
     }
+    
+    public void unfollow(Seguidores s) throws SQLException{
+        query = "DELETE FROM seguidores "
+              + "WHERE seguidores.perfilSeguidor = "+s.getPerfilSeguidor()+" "
+              + "AND seguidores.perfilSeguido = "+s.getPerfilSeguido() + " LIMIT 1";
+        
+        con.ejecutar(query);
+    }
 
     public List<Usuario> getSeguidores(int id) throws SQLException {
         query = "SELECT usuario.id, usuario.nombre FROM seguidores, usuario "
@@ -141,7 +149,8 @@ public class Data {
     public List<ConsultaSeguidor> getPublicacionesSeguidos(int id) throws SQLException {
         query = "SELECT publicaciones.fecha, publicaciones.contenido, usuario.nombre "
                 + "FROM publicaciones, seguidores, usuario "
-                + "WHERE publicaciones.usuario = usuario.id AND seguidores.perfilSeguido = usuario.id AND seguidores.perfilseguidor = " + id;
+                + "WHERE publicaciones.usuario = usuario.id AND seguidores.perfilSeguido = usuario.id "
+                + "AND seguidores.perfilseguidor = " + id + " ORDER BY publicaciones.fecha";
         rs = con.ejecutarSelect(query);
         ConsultaSeguidor cs;
         List<ConsultaSeguidor> lista = new ArrayList<>();
@@ -166,7 +175,7 @@ public class Data {
 
         Publicacion p;
         List<Publicacion> lista = new ArrayList<>();
-        if (rs.next()) {
+        while (rs.next()) {
             p = new Publicacion();
             //p.setId(rs.getInt(1));
             p.setFecha(rs.getString(1));

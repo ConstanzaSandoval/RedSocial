@@ -66,6 +66,8 @@
                     out.println("Publicado el:" + p.getFecha());
                     out.println("<br><input type='text' value='" + p.getContenido() + "' readonly='readonly'/>");
                 }
+            }else{
+                response.sendRedirect("Index.jsp");
             }
         %>
 

@@ -36,7 +36,7 @@ public class BuscarServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String filtro = request.getParameter("filtro");
             Data d = new Data();
-
+            System.out.println("Filtro "+filtro);
             Usuario u = (Usuario) request.getSession().getAttribute("usuario");
             if (u != null) {
                 out.println("<form action='cerrarSesion.do'>"
@@ -57,14 +57,23 @@ public class BuscarServlet extends HttpServlet {
                             out.print("<form action='seguidores.do' method='post'> "
                                     + "<input type='hidden' name='txtIdSeguido' value='" + usu.getId() + "' /> "
                                     + "<input type='hidden' name='txtIdSeguidor' value='" + u.getId() + "' /> "
+                                    + "<input type='hidden' name='txtFiltro' value='" + request.getParameter("filtro") + "' /> "
                                     + "<input type='submit' name='btnSeguir' value='Seguir' />"
                                     + "</form> <br/>");
-                        } else/* if (d.getSeguido(s) != null)*/ {
-                            out.print("<input type='submit' value='Seguido' disabled=''/><br/>");
+                        } else {
+                            out.print("<form action='unfollow.do' method='post'> "
+                                    + "<input type='hidden' name='txtIdSeguido' value='" + usu.getId() + "' /> "
+                                    + "<input type='hidden' name='txtIdSeguidor' value='" + u.getId() + "' /> "
+                                    + "<input type='hidden' name='txtFiltro' value='" + request.getParameter("filtro") + "' /> "
+                                    + "<input type='submit' name='btnUnfollow' value='Dejar de seguir' />"
+                                    + "</form> <br/>");
+
                         }
                     }
 
                 }
+            } else {
+                response.sendRedirect("Index.jsp");
             }
 
         } catch (SQLException | ClassNotFoundException ex) {

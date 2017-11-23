@@ -16,7 +16,7 @@
     <body>
 
         <%
-            if ((request.getParameter("idSeguidos") == null) && (request.getParameter("idSeguidores") != null)) {
+            if ((request.getParameter("idSeguidores") != null)) {
                 int id = Integer.parseInt(request.getParameter("idSeguidores"));
 
                 Data d = new Data();
@@ -24,7 +24,7 @@
                 for (Usuario us : d.getSeguidores(id)) {
                     out.println("- <a href='PerfilBuscar.jsp?id=" + us.getId() + "'>" + us.getNombre() + "</a></br> ");
                 }
-            } else if (request.getParameter("idSeguidores") == null) {
+            } else if (request.getParameter("idSeguidos") != null) {
                 int id = Integer.parseInt(request.getParameter("idSeguidos"));
 
                 Data d = new Data();
@@ -32,6 +32,8 @@
                 for (Usuario us : d.getSeguidos(id)) {
                     out.println("- <a href='PerfilBuscar.jsp?id=" + us.getId() + "'>" + us.getNombre() + "</a></br> ");
                 }
+            }else{
+                response.sendRedirect("Index.jsp");
             }
 
 

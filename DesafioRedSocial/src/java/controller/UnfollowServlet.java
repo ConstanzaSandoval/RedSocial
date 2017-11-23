@@ -17,8 +17,8 @@ import model.Seguidores;
  *
  * @author Conny
  */
-@WebServlet(name = "SeguidoresServlet", urlPatterns = {"/seguidores.do"})
-public class SeguidoresServlet extends HttpServlet {
+@WebServlet(name = "UnfollowServlet", urlPatterns = {"/unfollow.do"})
+public class UnfollowServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,24 +33,23 @@ public class SeguidoresServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            if (request.getParameter("btnSeguir") != null) {
+
+            if (request.getParameter("btnUnfollow") != null) {
                 Data d = new Data();
-
-                int idSeguido = Integer.parseInt(request.getParameter("txtIdSeguido"));
-                int idSeguidor = Integer.parseInt(request.getParameter("txtIdSeguidor"));
                 String filtro = request.getParameter("txtFiltro");
-
                 Seguidores s = new Seguidores();
+                s.setPerfilSeguido(Integer.parseInt(request.getParameter("txtIdSeguido")));
+                s.setPerfilSeguidor(Integer.parseInt(request.getParameter("txtIdSeguidor")));
 
-                s.setPerfilSeguido(idSeguido);
-                s.setPerfilSeguidor(idSeguidor);
-                d.crearSeguidores(s);
-                response.sendRedirect("buscar.do?filtro=" + filtro);
+                d.unfollow(s);
+                
+                response.sendRedirect("buscar.do?filtro="+filtro);
 
+            }else{
+                response.sendRedirect("Index.jsp");
             }
-
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(SeguidoresServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UnfollowServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

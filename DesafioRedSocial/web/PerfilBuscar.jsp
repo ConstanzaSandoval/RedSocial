@@ -4,6 +4,10 @@
     Author     : Conny
 --%>
 
+<%@page import="java.util.Date"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="model.Publicacion"%>
 <%@page import="model.Usuario"%>
 <%@page import="model.Perfil"%>
@@ -24,6 +28,8 @@
         
         <%                            if (u != null) {
                 out.println("<h3><a href='Perfil.jsp'>" + u.getNombre() + "</a></h3>");
+            }else{
+                response.sendRedirect("Index.jsp");
             }
         %>
 
@@ -44,13 +50,18 @@
 
         <%
 
-                out.println("Seguidores: " + d.getCantSeguidores(us.getId()) + "<br>");
-                out.println("Seguidos: " + d.getCantSeguidos(us.getId()) + "<br>");
-                out.println(p.getDescripcion() + "<br>");
-
+                out.println("Seguidores: " + d.getCantSeguidores(us.getId()) + "</br>");
+                out.println("Seguidos: " + d.getCantSeguidos(us.getId()) + "</br>");
+                out.println(p.getDescripcion() + "</br>");
+                
+                DateFormat date = new SimpleDateFormat("EEEEEEEEE dd 'de' MMMMM 'de' yyyy");    
+                
                 for (Publicacion pub : d.getPublicaciones(us.getId())) {
-                    out.println("Publicado el: " + pub.getFecha());
-                    out.println(pub.getContenido() + "<br>");
+                    String fecha = date.format(pub.getFecha());
+                    out.println("</br>");
+                    out.print(" Publicado el: " + fecha ); 
+                    out.print(pub.getContenido().toString() + "<br><br>" );
+                    
                 }
             }
         %>
