@@ -41,11 +41,16 @@ public class IniciarSesionServlet extends HttpServlet {
                     String email = (request.getParameter("txtEmail"));
                     String contrasenia = (request.getParameter("txtContrasenia"));
                     Usuario u = d.getUsuario(email, contrasenia);
-                    System.out.println("pasa");
-                    request.getSession().setAttribute("usuario", u);
-                    request.getSession().removeAttribute("error");
+                    if (u != null) {
+                        System.out.println("pasa");
+                        request.getSession().setAttribute("usuario", u);
+                        request.getSession().removeAttribute("error");
+                        response.sendRedirect("Perfil.jsp");
+                    } else {
+                        request.getSession().setAttribute("error", new Error("Usuario o Contraseña incorrectas"));
+                        response.sendRedirect("Index.jsp");
+                    }
 
-                    response.sendRedirect("Perfil.jsp");
                 } catch (NullPointerException e) {
                     System.out.println("no pasa");
                     request.getSession().setAttribute("error", new Error("Usuario o Contraseña incorrectas"));

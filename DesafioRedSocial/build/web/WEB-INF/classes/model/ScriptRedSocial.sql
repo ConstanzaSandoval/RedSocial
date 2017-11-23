@@ -61,13 +61,14 @@ WHERE seguidores.perfilSeguido = publicaciones.usuario AND seguidores.perfilSegu
 
 SELECT * FROM publicaciones WHERE usuario = 1
 select count(seguidores.id) from seguidores, perfil where perfil.id = perfilSeguido and perfil.id = 1
-select * from usuario
+select * from usuario WHERE email = 'conny@gmail.com' AND contrasenia = 12
 select * from perfil
 select * from seguidores
 
-
+  
 
 select usuario.nombre from seguidores, perfil,usuario where perfil.id = perfilSeguido and perfil.id = 1
+select usuario.nombre from seguidores, perfil,usuario where perfil.id = perfilSeguidor and perfil.id = 3
 
 SELECT usuario.nombre FROM seguidores, usuario WHERE seguidores.perfilSeguido = usuario.id AND seguidores.perfilSeguidor = 3 
 

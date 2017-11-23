@@ -31,8 +31,8 @@
                 out.println("<h3> <a href = 'Inicio.jsp'> Home </a> </h3>");
 
                 Data d = new Data();
-                out.print("Seguidores: "+d.getCantSeguidores(u.getId())+"  ");
-                out.println("Seguidos: "+d.getCantSeguidos(u.getId())+"<br>");
+                out.print("Seguidores: <a href = 'VerSeguidores.jsp?idSeguidores="+u.getId()+"'> "+d.getCantSeguidores(u.getId())+"</a>  ");
+                out.println("Seguidos: <a href = 'VerSeguidores.jsp?idSeguidos="+u.getId()+"'>"+d.getCantSeguidos(u.getId())+"</a><br>");
         %>
 
         <form action="buscar.do" method="post">
@@ -69,23 +69,5 @@
             }
         %>
 
-
-       <!--<script src="js/jquery-3.2.1.min.js"></script>
-        <script>
-            function buscar() {
-
-                var txtFiltro = $("#txtBuscar").val();
-
-                $.ajax({
-                    url: "buscar.do",
-                    data: {
-                        filtro: txtFiltro
-                    },
-                    success: function (result) {
-                        $("#resultado").html(result);
-                    }
-                });
-            }
-        </script>-->
     </body>
 </html>
