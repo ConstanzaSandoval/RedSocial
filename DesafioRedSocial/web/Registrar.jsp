@@ -69,10 +69,11 @@
                     }
                 %>
             </select><br>
-            Fecha de nacimiento: <input id="fechaNacimiento" name="txtFechaNacimineto" required="" /><br> 
+            Fecha de nacimiento: <input id="fechaNacimiento" name="txtFechaNacimineto" required="" readonly=""/><br> 
             Correo: <input type="text" name="txtCorreo" required=""/><br>
             Contraseña: <input type="password" name="txtContrasenia" required=""/>
             <input type="submit" name="btnRegistrar" value="Registrar"/>
         </form>
+            <a href="Index.jsp">Volver</a>
     </body>
 </html>

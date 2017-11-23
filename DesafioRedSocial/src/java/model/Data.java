@@ -82,18 +82,35 @@ public class Data {
         return u;
     }
 
-    public List<Usuario> getSeguidos (int id) throws SQLException{
-        query = "SELECT usuario.id, usuario.nombre FROM seguidores, usuario "
-              + "WHERE seguidores.perfilSeguido = usuario.id "
-              + "AND seguidores.perfilSeguidor = " + id;
-        
+    public Seguidores getSeguido(Seguidores s) throws SQLException {
+
+        query = "SELECT * FROM seguidores "
+                + "WHERE perfilSeguido = " + s.getPerfilSeguido() + " "
+                + "AND perfilSeguidor = " + s.getPerfilSeguidor();
         rs = con.ejecutarSelect(query);
-        
-        List <Usuario> lista = new ArrayList<>();
+        Seguidores seg = null;
+        if (rs.next()) {
+            seg = new Seguidores();
+            seg.setId(rs.getInt(1));
+            seg.setPerfilSeguido(rs.getInt(2));
+            seg.setPerfilSeguidor(rs.getInt(3));
+
+        }
+        return seg;
+    }
+
+    public List<Usuario> getSeguidos(int id) throws SQLException {
+        query = "SELECT usuario.id, usuario.nombre FROM seguidores, usuario "
+                + "WHERE seguidores.perfilSeguido = usuario.id "
+                + "AND seguidores.perfilSeguidor = " + id;
+
+        rs = con.ejecutarSelect(query);
+
+        List<Usuario> lista = new ArrayList<>();
         Usuario us;
-        while(rs.next()){
+        while (rs.next()) {
             us = new Usuario();
-            
+
             us.setId(rs.getInt(1));
             us.setNombre(rs.getString(2));
             lista.add(us);
@@ -101,16 +118,17 @@ public class Data {
         con.close();
         return lista;
     }
-    public List<Usuario> getSeguidores (int id) throws SQLException{
+
+    public List<Usuario> getSeguidores(int id) throws SQLException {
         query = "SELECT usuario.id, usuario.nombre FROM seguidores, usuario "
-              + "WHERE seguidores.perfilSeguidor = usuario.id "
-              + "AND seguidores.perfilSeguido = " + id;
-        
+                + "WHERE seguidores.perfilSeguidor = usuario.id "
+                + "AND seguidores.perfilSeguido = " + id;
+
         rs = con.ejecutarSelect(query);
-        
-        List <Usuario> lista = new ArrayList<>();
+
+        List<Usuario> lista = new ArrayList<>();
         Usuario us;
-        while(rs.next()){
+        while (rs.next()) {
             us = new Usuario();
             us.setId(rs.getInt(1));
             us.setNombre(rs.getString(2));
@@ -119,7 +137,7 @@ public class Data {
         con.close();
         return lista;
     }
-    
+
     public List<ConsultaSeguidor> getPublicacionesSeguidos(int id) throws SQLException {
         query = "SELECT publicaciones.fecha, publicaciones.contenido, usuario.nombre "
                 + "FROM publicaciones, seguidores, usuario "
@@ -141,17 +159,19 @@ public class Data {
 
     public List<Publicacion> getPublicaciones(int id) throws SQLException {
 
-        query = "SELECT * FROM publicaciones WHERE usuario = " + id;
+        query = "SELECT publicaciones.fecha, publicaciones.contenido " +
+                "FROM publicaciones " +
+                "WHERE usuario =  " + id;
         rs = con.ejecutarSelect(query);
 
         Publicacion p;
         List<Publicacion> lista = new ArrayList<>();
         if (rs.next()) {
             p = new Publicacion();
-            p.setId(rs.getInt(1));
-            p.setFecha(rs.getString(2));
-            p.setContenido(rs.getString(3));
-            p.setUsuario(rs.getInt(4));
+            //p.setId(rs.getInt(1));
+            p.setFecha(rs.getString(1));
+            p.setContenido(rs.getString(2));
+            //p.setUsuario(rs.getInt(4));
 
             lista.add(p);
         }

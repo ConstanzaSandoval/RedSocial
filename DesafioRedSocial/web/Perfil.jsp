@@ -16,7 +16,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Red Social</title>
+        <title>Hermes</title>
     </head>
     <body>
         <form action="cerrarSesion.do">
@@ -44,23 +44,23 @@
         <form action="actualizarDescripcion.do" method="post">
             <%            Perfil per = d.getPerfil(u.getId());
             %>
-            <input name="txtDescripcion" placeholder="Añadir una descripción" value="<%=per.getDescripcion()%>"/>
+            <input type="text" name="txtDescripcion" placeholder="Añadir una descripción" value="<%=per.getDescripcion()%>"/>
             <input type="hidden" value="<%=u.getId()%>" name="txtIdUsuario"/>
             <input type="submit" value="Añadir" name="btnAñadirDescripcion"/>
         </form> 
             <br/>
             <br/>
+        
         Publicar:
         <form action="publicar.do" method="post" >
 
-            <input type="text" name="txtPublicacion" />
+            <input type="text" name="txtPublicacion" placeholder="Comparte algo con tus seguidores aquí!" size="20px"/>
             <input type="hidden" value="<%=u.getId()%>" name="idPerfil"/>
             <input type="submit" name="btnPublicar" value="Publicar"/>
 
         </form>
         <br>
-
-
+        
         <%
                 for (Publicacion p : d.getPublicaciones(u.getId())) {
                     out.println("Publicado el:" + p.getFecha());

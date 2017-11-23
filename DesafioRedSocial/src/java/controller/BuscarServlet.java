@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Data;
+import model.Seguidores;
 import model.Usuario;
 
 /**
@@ -38,18 +39,31 @@ public class BuscarServlet extends HttpServlet {
 
             Usuario u = (Usuario) request.getSession().getAttribute("usuario");
             if (u != null) {
-                out.println("<form action='cerrarSesion.do'>" +
-                            "<input type='submit' value='Cerrar sesión'/>" +
-                            "</form>");
+                out.println("<form action='cerrarSesion.do'>"
+                        + "<input type='submit' value='Cerrar sesión'/>"
+                        + "</form>");
                 out.println("<h1><a href='Perfil.jsp'>" + u.getNombre() + " </a></h1>");
                 for (Usuario usu : d.buscarUsuario(filtro)) {
-                    out.println("- <a href='PerfilBuscar.jsp?id=" + usu.getId() + "'>" + usu.getNombre() + "</a> ");
-                    
-                    out.print("<form action='seguidores.do' method='post'> "
-                            + "<input type='hidden' name='txtIdSeguido' value='" + usu.getId() + "' /> "
-                            + "<input type='hidden' name='txtIdSeguidor' value='" + u.getId() + "' /> "
-                            + "<input type='submit' name='btnSeguir' value='Seguir' />"
-                            + "</form>");
+
+                    if (usu.getId() != u.getId()) {
+
+                        out.println("- <a href='PerfilBuscar.jsp?id=" + usu.getId() + "'>" + usu.getNombre() + "</a> ");
+
+                        Seguidores s = new Seguidores();
+                        s.setPerfilSeguido(usu.getId());
+                        s.setPerfilSeguidor(u.getId());
+
+                        if (d.getSeguido(s) == null) {
+                            out.print("<form action='seguidores.do' method='post'> "
+                                    + "<input type='hidden' name='txtIdSeguido' value='" + usu.getId() + "' /> "
+                                    + "<input type='hidden' name='txtIdSeguidor' value='" + u.getId() + "' /> "
+                                    + "<input type='submit' name='btnSeguir' value='Seguir' />"
+                                    + "</form> <br/>");
+                        } else/* if (d.getSeguido(s) != null)*/ {
+                            out.print("<input type='submit' value='Seguido' disabled=''/><br/>");
+                        }
+                    }
+
                 }
             }
 

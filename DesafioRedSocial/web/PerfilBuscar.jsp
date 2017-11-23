@@ -21,7 +21,7 @@
             <input type="submit" value="Cerrar sesión"/>
         </form>
         <a href="Inicio.jsp"> Home </a>
-
+        
         <%                            if (u != null) {
                 out.println("<h3><a href='Perfil.jsp'>" + u.getNombre() + "</a></h3>");
             }
@@ -32,7 +32,7 @@
         <%
             if (request.getParameter("id") != null) {
                 String id = request.getParameter("id");
-                System.out.println("IdB :"+id);
+                
                 Data d = new Data();
                 int idI = Integer.parseInt(id);
                 
