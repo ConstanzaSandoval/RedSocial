@@ -18,14 +18,15 @@
             <input type="password" name="txtContrasenia" required=""/>
             <input type="submit" name="btnIngresar" value="Iniciar Sesión"/>
         </form>
-        Para registrarte gratis, haz click <a href="Registrar.jsp"> aquí </a>
+        Para registrarte gratis, haz click <a href="Registrar.jsp"> aquí </a><br/>
 
         <%
             Error e = (Error) request.getSession().getAttribute("error");
             if (e != null) {
-                out.println("<p>" + e.getMessage() + "</p>");
+                out.println(e.getMessage());
                 request.getSession().removeAttribute("error");
             }
+           
         %>    
     </body>
 </html>

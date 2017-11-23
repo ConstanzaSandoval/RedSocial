@@ -3,12 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/cnani/Documents/NetBeansProjects/DesafioRedSocial/src/java/model/Perfil.java</file>
-            <file>file:/C:/Users/cnani/Documents/NetBeansProjects/DesafioRedSocial/src/java/model/Data.java</file>
-            <file>file:/C:/Users/cnani/Documents/NetBeansProjects/DesafioRedSocial/web/Perfil.jsp</file>
-            <file>file:/C:/Users/cnani/Documents/NetBeansProjects/DesafioRedSocial/src/java/controller/ActualizarDescripcion.java</file>
-            <file>file:/C:/Users/cnani/Documents/NetBeansProjects/DesafioRedSocial/src/java/controller/PublicarServlet.java</file>
-            <file>file:/C:/Users/cnani/Documents/NetBeansProjects/DesafioRedSocial/src/java/controller/CrearUsuario.java</file>
+            <file>file:/C:/Users/cnani/Desktop/RedSocial/DesafioRedSocial/web/Index.jsp</file>
+            <file>file:/C:/Users/cnani/Desktop/RedSocial/DesafioRedSocial/src/java/model/ScriptRedSocial.sql</file>
+            <file>file:/C:/Users/cnani/Desktop/RedSocial/DesafioRedSocial/src/java/model/Data.java</file>
+            <file>file:/C:/Users/cnani/Desktop/RedSocial/DesafioRedSocial/web/Perfil.jsp</file>
+            <file>file:/C:/Users/cnani/Desktop/RedSocial/DesafioRedSocial/web/Inicio.jsp</file>
+            <file>file:/C:/Users/cnani/Desktop/RedSocial/DesafioRedSocial/web/PerfilBuscar.jsp</file>
+            <file>file:/C:/Users/cnani/Desktop/RedSocial/DesafioRedSocial/src/java/controller/BuscarServlet.java</file>
+            <file>file:/C:/Users/cnani/Desktop/RedSocial/DesafioRedSocial/src/java/controller/IniciarSesionServlet.java</file>
         </group>
     </open-files>
 </project-private>

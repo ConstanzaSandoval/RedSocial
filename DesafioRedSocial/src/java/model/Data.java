@@ -77,10 +77,29 @@ public class Data {
             u.setEdad(rs.getString(5));
             u.setSexo(rs.getInt(6));
         }
+
         con.close();
         return u;
     }
 
+    public List<Usuario> getSeguidos (int id) throws SQLException{
+        query = "SELECT usuario.nombre FROM seguidores, usuario "
+              + "WHERE seguidores.perfilSeguido = usuario.id "
+              + "AND seguidores.perfilSeguidor = " + id;
+        
+        rs = con.ejecutarSelect(query);
+        
+        List <Usuario> lista = new ArrayList<>();
+        Usuario us;
+        while(rs.next()){
+            us = new Usuario();
+            us.setNombre(rs.getString(1));
+            lista.add(us);
+        }
+        con.close();
+        return lista;
+    }
+    
     public List<ConsultaSeguidor> getPublicacionesSeguidos(int id) throws SQLException {
         query = "SELECT publicaciones.fecha, publicaciones.contenido, usuario.nombre "
                 + "FROM publicaciones, seguidores, usuario "
@@ -112,6 +131,7 @@ public class Data {
             p.setId(rs.getInt(1));
             p.setFecha(rs.getString(2));
             p.setContenido(rs.getString(3));
+            p.setUsuario(rs.getInt(4));
 
             lista.add(p);
         }
@@ -161,7 +181,7 @@ public class Data {
 
     public int getCantSeguidores(int id) throws SQLException {
 
-        query = "select count(seguidores.id) from seguidores, usuario where usuario.id = perfilSeguido"
+        query = "SELECT COUNT(seguidores.id) FROM seguidores, usuario WHERE usuario.id = perfilSeguido"
                 + " AND usuario.id = " + id;
         rs = con.ejecutarSelect(query);
         int s = 0;
@@ -175,7 +195,7 @@ public class Data {
 
     public int getCantSeguidos(int id) throws SQLException {
 
-        query = "select count(seguidores.id) from seguidores, usuario where usuario.id = perfilSeguidor"
+        query = "SELECT COUNT(seguidores.id) FROM seguidores, usuario WHERE usuario.id = perfilSeguidor"
                 + " AND usuario.id = " + id;
         rs = con.ejecutarSelect(query);
         int s = 0;

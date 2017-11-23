@@ -28,12 +28,16 @@
         <table>
             <%
                 Data d = new Data();
-
+                
                 for (ConsultaSeguidor cs : d.getPublicacionesSeguidos(u.getId())) {
-
+                    
+                    
+                    
                     out.print(cs.getUsuario()+": ");
                     out.println(cs.getFecha());
+                    out.println("<br/>");
                     out.println(cs.getContenido());
+                    out.println("<br/>");
                 }
             %>
         </table>

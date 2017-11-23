@@ -57,13 +57,19 @@ CREATE TABLE publicaciones(
 
 SELECT publicaciones.fecha, publicaciones.contenido, usuario.nombre 
 FROM publicaciones, seguidores, usuario 
-WHERE publicaciones.usuario = usuario.id AND seguidores.perfilSeguido = usuario.id AND  publicaciones.usuario = seguidores.perfilSeguido AND seguidores.perfilseguidor = 2
+WHERE seguidores.perfilSeguido = publicaciones.usuario AND seguidores.perfilSeguidor = 2
 
-SELECT * FROM publicaciones WHERE usuario = 4
+SELECT * FROM publicaciones WHERE usuario = 1
 select count(seguidores.id) from seguidores, perfil where perfil.id = perfilSeguido and perfil.id = 1
 select * from usuario
 select * from perfil
 select * from seguidores
+
+
+
+select usuario.nombre from seguidores, perfil,usuario where perfil.id = perfilSeguido and perfil.id = 1
+
+SELECT usuario.nombre FROM seguidores, usuario WHERE seguidores.perfilSeguido = usuario.id AND seguidores.perfilSeguidor = 3 
 
 SELECT * FROM  usuario WHERE nombre like '%i%'
 SELECT * FROM usuario WHERE id = 1

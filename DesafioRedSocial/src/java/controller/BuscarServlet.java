@@ -38,6 +38,9 @@ public class BuscarServlet extends HttpServlet {
 
             Usuario u = (Usuario) request.getSession().getAttribute("usuario");
             if (u != null) {
+                out.println("<form action='cerrarSesion.do'>" +
+                            "<input type='submit' value='Cerrar sesión'/>" +
+                            "</form>");
                 out.println("<h1><a href='Perfil.jsp'>" + u.getNombre() + " </a></h1>");
                 for (Usuario usu : d.buscarUsuario(filtro)) {
                     out.println("- <a href='PerfilBuscar.jsp?id=" + usu.getId() + "'>" + usu.getNombre() + "</a> ");

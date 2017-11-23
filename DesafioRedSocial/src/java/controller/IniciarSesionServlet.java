@@ -33,26 +33,28 @@ public class IniciarSesionServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            Data d = new Data();
-            Usuario u;
+            if (request.getParameter("btnIngresar") != null) {
 
-            String email = (request.getParameter("txtEmail"));
-            String contrasenia = (request.getParameter("txtContrasenia"));
+                try {
+                    Data d = new Data();
 
-            u = d.getUsuario(email, contrasenia);
-            out.write(u.getId());
-            if (u == null) {
-                System.out.println("no pasa");
-                request.getSession().setAttribute("error", new Error("Usuario o Contraseña incorrectas"));
-                response.sendRedirect("Index.jsp");
+                    String email = (request.getParameter("txtEmail"));
+                    String contrasenia = (request.getParameter("txtContrasenia"));
+                    Usuario u = d.getUsuario(email, contrasenia);
+                    System.out.println("pasa");
+                    request.getSession().setAttribute("usuario", u);
+                    request.getSession().removeAttribute("error");
+
+                    response.sendRedirect("Perfil.jsp");
+                } catch (NullPointerException e) {
+                    System.out.println("no pasa");
+                    request.getSession().setAttribute("error", new Error("Usuario o Contraseña incorrectas"));
+                    response.sendRedirect("Index.jsp");
+                }
+
             } else {
-                System.out.println("pasa");
-                request.getSession().setAttribute("usuario", u);
-                request.getSession().removeAttribute("error");
-                
-                response.sendRedirect("Perfil.jsp");
+                response.sendRedirect("Index.jsp");
             }
-
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(IniciarSesionServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

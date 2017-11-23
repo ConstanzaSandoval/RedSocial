@@ -17,7 +17,10 @@
         <title>Red Social</title>
     </head>
     <body>
-        <a href="Inicio.jsp">Ir a inicio</a>
+        <form action="cerrarSesion.do">
+            <input type="submit" value="Cerrar sesión"/>
+        </form>
+        <a href="Inicio.jsp"> Home </a>
 
         <%                            if (u != null) {
                 out.println("<h3><a href='Perfil.jsp'>" + u.getNombre() + "</a></h3>");

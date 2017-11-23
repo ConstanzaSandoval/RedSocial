@@ -31,7 +31,8 @@
                 out.println("<h3> <a href = 'Inicio.jsp'> Home </a> </h3>");
 
                 Data d = new Data();
-                out.println("Seguidores"+d.getCantSeguidores(u.getId())+"<br>");
+                out.print("Seguidores: "+d.getCantSeguidores(u.getId())+"  ");
+                out.println("Seguidos: "+d.getCantSeguidos(u.getId())+"<br>");
         %>
 
         <form action="buscar.do" method="post">
