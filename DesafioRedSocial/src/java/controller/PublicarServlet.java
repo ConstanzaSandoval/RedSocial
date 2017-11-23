@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
@@ -38,19 +33,21 @@ public class PublicarServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
-            Data d = new Data();
-            String texto = request.getParameter("txtPublicacion");
-            int id = Integer.parseInt(request.getParameter("idPerfil"));
-            
-            Publicacion p = new Publicacion();
-            
-            p.setContenido(texto);
-            p.setUsuario(id);
-            
-            d.crearPublicacion(p);
-            response.sendRedirect("Perfil.jsp");
-            
+
+            if (request.getParameter("btnPublicar") != null) {
+                Data d = new Data();
+                String texto = request.getParameter("txtPublicacion");
+                int id = Integer.parseInt(request.getParameter("idPerfil"));
+
+                Publicacion p = new Publicacion();
+
+                p.setContenido(texto);
+                p.setUsuario(id);
+
+                d.crearPublicacion(p);
+                response.sendRedirect("Perfil.jsp");
+            }
+
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(PublicarServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

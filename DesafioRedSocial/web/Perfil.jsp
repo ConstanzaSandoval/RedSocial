@@ -19,14 +19,19 @@
         <title>Red Social</title>
     </head>
     <body>
+        <form action="cerrarSesion.do">
+            <input type="submit" value="Cerrar sesión"/>
+        </form>
 
         <%
             Usuario u = (Usuario) session.getAttribute("usuario");
 
             if (u != null) {
                 out.println("<h1>" + u.getNombre() + "</h1>");
+                out.println("<h3> <a href = 'Inicio.jsp'> Home </a> </h3>");
 
                 Data d = new Data();
+                out.println("Seguidores"+d.getCantSeguidores(u.getId())+"<br>");
         %>
 
         <form action="buscar.do" method="post">
@@ -38,11 +43,12 @@
         <form action="actualizarDescripcion.do" method="post">
             <%            Perfil per = d.getPerfil(u.getId());
             %>
-            <input name="txtDescripcion" rows="5" cols="40" placeholder="Añadir una descripción" value="<%=per.getDescripcion()%>"/>
+            <input name="txtDescripcion" placeholder="Añadir una descripción" value="<%=per.getDescripcion()%>"/>
             <input type="hidden" value="<%=u.getId()%>" name="txtIdUsuario"/>
             <input type="submit" value="Añadir" name="btnAñadirDescripcion"/>
         </form> 
-
+            <br/>
+            <br/>
         Publicar:
         <form action="publicar.do" method="post" >
 
@@ -56,8 +62,8 @@
 
         <%
                 for (Publicacion p : d.getPublicaciones(u.getId())) {
-                    out.write("Publicado el:" + p.getFecha());
-                    out.write("<br><input type='text' value='" + p.getContenido() + "' readonly='readonly'/>");
+                    out.println("Publicado el:" + p.getFecha());
+                    out.println("<br><input type='text' value='" + p.getContenido() + "' readonly='readonly'/>");
                 }
             }
         %>

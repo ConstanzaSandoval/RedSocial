@@ -44,7 +44,8 @@ public class SeguidoresServlet extends HttpServlet {
             s.setPerfilSeguido(idSeguido);
             s.setPerfilSeguidor(idSeguidor);
             d.crearSeguidores(s);
-            response.sendRedirect("PerfilBuscar.jsp");
+            response.sendRedirect("PerfilBuscar.jsp?id="+idSeguido);
+            
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(SeguidoresServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

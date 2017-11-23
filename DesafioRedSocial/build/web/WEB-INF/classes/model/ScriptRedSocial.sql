@@ -41,8 +41,8 @@ CREATE TABLE seguidores(
     id INT AUTO_INCREMENT,
     perfilSeguido int,
     perfilseguidor int,
-    FOREIGN KEY (perfilSeguido) REFERENCES perfil(id),
-    FOREIGN KEY (perfilseguidor) REFERENCES perfil(id),
+    FOREIGN KEY (perfilSeguido) REFERENCES usuario(id),
+    FOREIGN KEY (perfilseguidor) REFERENCES usuario(id),
     PRIMARY KEY(id)
 );
 
@@ -55,14 +55,16 @@ CREATE TABLE publicaciones(
     PRIMARY KEY(id)
 );
 
-SELECT publicaciones.fecha, publicaciones.contenido FROM publicaciones, seguidores, usuario, perfil 
-WHERE seguidores.perfilseguido = perfil.id AND perfil.usuario = usuario.id AND seguidores.perfilseguidor = 
+SELECT publicaciones.fecha, publicaciones.contenido, usuario.nombre 
+FROM publicaciones, seguidores, usuario 
+WHERE publicaciones.usuario = usuario.id AND seguidores.perfilSeguido = usuario.id AND  publicaciones.usuario = seguidores.perfilSeguido AND seguidores.perfilseguidor = 2
 
-SELECT * FROM publicaciones WHERE usuario = 2
+SELECT * FROM publicaciones WHERE usuario = 4
 select count(seguidores.id) from seguidores, perfil where perfil.id = perfilSeguido and perfil.id = 1
 select * from usuario
 select * from perfil
+select * from seguidores
 
-SELECT * FROM  usuario WHERE nombre like '%pa%'
+SELECT * FROM  usuario WHERE nombre like '%i%'
 SELECT * FROM usuario WHERE id = 1
 SELECT * FROM perfil WHERE usuario = 1

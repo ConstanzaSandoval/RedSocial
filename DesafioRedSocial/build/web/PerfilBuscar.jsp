@@ -18,31 +18,37 @@
     </head>
     <body>
         <a href="Inicio.jsp">Ir a inicio</a>
-        
+
         <%                            if (u != null) {
-                out.println("<h3><a href='Perfil.jsp'>" + u.getNombre()+"</a></h3>");
+                out.println("<h3><a href='Perfil.jsp'>" + u.getNombre() + "</a></h3>");
             }
         %>
-        
+
         <br>
-        
+
         <%
-            String id = request.getParameter("id");
-            Data d = new Data();
-            Usuario us = d.getUsuario(Integer.parseInt(id));
-            Perfil p = d.getPerfil(Integer.parseInt(id));
+            if (request.getParameter("id") != null) {
+                String id = request.getParameter("id");
+                System.out.println("IdB :"+id);
+                Data d = new Data();
+                int idI = Integer.parseInt(id);
+                
+                Usuario us = d.getUsuario(idI);
+                Perfil p = d.getPerfil(idI);
         %>
-        
+
         <h1><%=us.getNombre()%></h1>
 
         <%
-            
-            out.println("Seguidores"+d.getCantSeguidores(us.getId())+"<br>");
-            out.println(p.getDescripcion()+"<br>");
-            
-            for (Publicacion pub : d.getPublicaciones(us.getId())) {
-                out.println("Publicado el: " + pub.getFecha());
-                out.println(pub.getContenido() + "<br>");
+
+                out.println("Seguidores: " + d.getCantSeguidores(us.getId()) + "<br>");
+                out.println("Seguidos: " + d.getCantSeguidos(us.getId()) + "<br>");
+                out.println(p.getDescripcion() + "<br>");
+
+                for (Publicacion pub : d.getPublicaciones(us.getId())) {
+                    out.println("Publicado el: " + pub.getFecha());
+                    out.println(pub.getContenido() + "<br>");
+                }
             }
         %>
 

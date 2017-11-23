@@ -56,8 +56,8 @@ public class Data {
     public void crearSeguidores(Seguidores s) throws SQLException {
 
         query = "INSERT INTO seguidores VALUES(null, "
-                + "'" + s.getPerfilSeguido() + "', "
-                + "'" + s.getPerfilSeguidor() + "')";
+                + s.getPerfilSeguido() + ", "
+                + s.getPerfilSeguidor() + ")";
         con.ejecutar(query);
     }
 
@@ -81,19 +81,21 @@ public class Data {
         return u;
     }
 
-    public List<Publicacion> getPublicacionesSeguidos(int id) throws SQLException {
-        query = "SELECT publicaciones.fecha, publicaciones.contenido FROM publicaciones, seguidores, usuario, perfil "
-                + "WHERE seguidores.perfilseguido = perfil.id AND perfil.usuario = usuario.id AND seguidores.perfilseguidor = " + id;
+    public List<ConsultaSeguidor> getPublicacionesSeguidos(int id) throws SQLException {
+        query = "SELECT publicaciones.fecha, publicaciones.contenido, usuario.nombre "
+                + "FROM publicaciones, seguidores, usuario "
+                + "WHERE publicaciones.usuario = usuario.id AND seguidores.perfilSeguido = usuario.id AND seguidores.perfilseguidor = " + id;
         rs = con.ejecutarSelect(query);
-        Publicacion p;
-        List<Publicacion> lista = new ArrayList<>();
+        ConsultaSeguidor cs;
+        List<ConsultaSeguidor> lista = new ArrayList<>();
 
         while (rs.next()) {
-            p = new Publicacion();
-            p.setFecha(rs.getString(1));
-            p.setContenido(rs.getString(2));
+            cs = new ConsultaSeguidor();
+            cs.setFecha(rs.getString(1));
+            cs.setContenido(rs.getString(2));
+            cs.setUsuario(rs.getString(3));
 
-            lista.add(p);
+            lista.add(cs);
         }
         return lista;
     }
@@ -110,7 +112,7 @@ public class Data {
             p.setId(rs.getInt(1));
             p.setFecha(rs.getString(2));
             p.setContenido(rs.getString(3));
-            
+
             lista.add(p);
         }
         con.close();
@@ -159,8 +161,8 @@ public class Data {
 
     public int getCantSeguidores(int id) throws SQLException {
 
-        query = "select count(seguidores.id) from seguidores, perfil where perfil.id = perfilSeguido"
-                + " AND perfil.id = " + id;
+        query = "select count(seguidores.id) from seguidores, usuario where usuario.id = perfilSeguido"
+                + " AND usuario.id = " + id;
         rs = con.ejecutarSelect(query);
         int s = 0;
 
@@ -173,8 +175,8 @@ public class Data {
 
     public int getCantSeguidos(int id) throws SQLException {
 
-        query = "select count(seguidores.id) from seguidores, perfil where perfil.id = perfilSeguidor"
-                + " AND perfil.id = " + id;
+        query = "select count(seguidores.id) from seguidores, usuario where usuario.id = perfilSeguidor"
+                + " AND usuario.id = " + id;
         rs = con.ejecutarSelect(query);
         int s = 0;
 
@@ -185,7 +187,6 @@ public class Data {
         return s;
     }
 
-    
     public List<Sexo> getSexos() throws SQLException {
 
         query = "SELECT * FROM sexo ";
@@ -204,7 +205,7 @@ public class Data {
         return lista;
     }
 
-    public int getIdUsuario() throws SQLException {
+    public int getIdUltimoUsuario() throws SQLException {
         query = "SELECT MAX(id) FROM usuario";
         int ultId = 0;
         rs = con.ejecutarSelect(query);

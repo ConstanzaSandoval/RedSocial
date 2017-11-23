@@ -62,7 +62,7 @@ public class CrearUsuario extends HttpServlet {
             Perfil p = new Perfil();
             
             p.setDescripcion("  ");
-            p.setUsuario(d.getIdUsuario());
+            p.setUsuario(d.getIdUltimoUsuario());
             
             d.crearPerfil(p);
             
