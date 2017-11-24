@@ -30,7 +30,7 @@ CREATE TABLE usuario(
 
 CREATE TABLE perfil(
     id INT AUTO_INCREMENT,
-    /*foto*/    
+    /*fotoPerfil BLOB, */
     descripcion VARCHAR(300),
     usuario int,
     FOREIGN KEY (usuario) REFERENCES usuario(id),

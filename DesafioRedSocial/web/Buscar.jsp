@@ -1,29 +1,28 @@
 <%-- 
-    Document   : PerfilBuscar
-    Created on : 21-nov-2017, 11:47:30
+    Document   : Buscar
+    Created on : 24-nov-2017, 15:03:41
     Author     : Conny
 --%>
 
-<%@page import="java.util.Date"%>
-<%@page import="java.text.DateFormat"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="model.Publicacion"%>
+
+<%@page import="model.Seguidores"%>
 <%@page import="model.Usuario"%>
-<%@page import="model.Perfil"%>
 <%@page import="model.Data"%>
-<%@include file="Sesion.jsp"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Hermes</title>
+        <title>JSP Page</title>
     </head>
-    <body style="background-color: #F0FFFF; ">
+    <body>
+        <%
+            String filtro = request.getParameter("filtro");
+            Data d = new Data();
 
-        <%                            if (u != null) {%>
+            Usuario u = (Usuario) request.getSession().getAttribute("usuario");
+            if (u != null) {%>
         <div class="card border-info mb-3" style="margin-left: 10px; position: fixed; width: 350px; height: 99%; ">
 
             <p class="card-text">
@@ -66,63 +65,46 @@
     </div>
 
 
-    <%        
-        String id = request.getParameter("id");
 
-        Data d = new Data();
-        int idI = Integer.parseInt(id);
-        if (idI == u.getId()) {
-            response.sendRedirect("Perfil.jsp?id=" + u.getId());
-        } else {
 
-            Usuario us = d.getUsuario(idI);
-            Perfil p = d.getPerfil(idI);
-    %>
+    <%for (Usuario usu : d.buscarUsuario(filtro)) {
+
+            if (usu.getId() != u.getId()) {%>
 
 <center>
-    <div class="card bg-light mb-3" style="max-width: 45rem; margin-left: 30px; margin-top: 10px" >
-        <div class="card-header"><h1> <%=us.getNombre()%></h1></div>
-        <div class="card-body">
-            <h4 class="card-title"> 
-                <%
-                out.print("Seguidores: <a href = 'VerSeguidores.jsp?idSeguidores=" + us.getId() + "'> " + d.getCantSeguidores(us.getId()) + "</a>  ");
-                out.println("Seguidos: <a href = 'VerSeguidores.jsp?idSeguidos=" + us.getId() + "'>" + d.getCantSeguidos(us.getId()) + "</a><br>");
-                %>
-            </h4>
-            <p class="card-text">
-                Descripción: 
+    <div class="input-group" style="width: 400px; ">
+        <a class="list-group-item list-group-item-action list-group-item-success" href="PerfilBuscar.jsp?id=<%=usu.getId()%>"><%=usu.getNombre()%></a>
+        <%
+            Seguidores s = new Seguidores();
+            s.setPerfilSeguido(usu.getId());
+            s.setPerfilSeguidor(u.getId());
 
-                <%            out.println(p.getDescripcion() + "</br>");
-                %>
+            if (d.getSeguido(s) == null) {%>
+        <span class="input-group-btn">
+            <form action='seguidores.do' method='post'> 
+                <input type="hidden" name="txtIdSeguido" value="<%=usu.getId()%> " /> 
+                <input type="hidden" name="txtIdSeguidor" value="<%=u.getId()%> " /> 
+                <input type="hidden" name="txtFiltro" value="<%=request.getParameter("filtro")%>" /> 
+                <button class="btn btn-outline-secondary" type="submit" name="btnSeguir" >Seguir</button>
+            </form>
+        </span>
+        <%
+        } else {%>
+        <form action='unfollow.do' method='post'> 
+            <input type="hidden" name="txtIdSeguido" value="<%=usu.getId()%> " /> 
+            <input type="hidden" name="txtIdSeguidor" value="<%=u.getId()%> " /> 
+            <input type="hidden" name="txtFiltro" value="<%=request.getParameter("filtro")%>" /> 
+            <input type="submit" name="btnUnfollow" value="Dejar de seguir"/>
+        </form> 
+    </div>
+    <%
+                    }
+                }
 
-            </p>
-        </div>
-    </div>
-    <h1>Publicaciones:</h1>
-    <%for (Publicacion pub : d.getPublicaciones(us.getId())) {%>
-    <div class="card border-secondary mb-3" style="max-width: 20rem;">
-        <div class="card-header"> Publicado el :<%
-            out.println(pub.getFecha());%>
-        </div>
-        <div class="card-body text-secondary">
-            <p class="card-text">
-            <h4><%
-                out.println(pub.getContenido());
-                %></h4>
-            </p>
-        </div>
-    </div>
-    <%}%>   
+            }
+        } else {
+            response.sendRedirect("Index.jsp");
+        }%>
 </center>
-
-
-
-<%
-        }
-    } else {
-        response.sendRedirect("Index.jsp");
-    }
-%>
-
 </body>
 </html>

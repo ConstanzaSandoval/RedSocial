@@ -2,10 +2,15 @@ package model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.PreparedStatement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -44,13 +49,15 @@ public class Data {
         query = "INSERT INTO publicaciones VALUES(null, NOW(), '" + p.getContenido() + "', '" + p.getUsuario() + "');";
         con.ejecutar(query);
     }
-
+    
     public void crearPerfil(Perfil per) throws SQLException {
 
         query = "INSERT INTO perfil VALUES(null, "
                 + "'" + per.getDescripcion() + "', "
                 + "'" + per.getUsuario() + "')";
+
         con.ejecutar(query);
+
     }
 
     public void crearSeguidores(Seguidores s) throws SQLException {
@@ -118,12 +125,12 @@ public class Data {
         con.close();
         return lista;
     }
-    
-    public void unfollow(Seguidores s) throws SQLException{
+
+    public void unfollow(Seguidores s) throws SQLException {
         query = "DELETE FROM seguidores "
-              + "WHERE seguidores.perfilSeguidor = "+s.getPerfilSeguidor()+" "
-              + "AND seguidores.perfilSeguido = "+s.getPerfilSeguido() + " LIMIT 1";
-        
+                + "WHERE seguidores.perfilSeguidor = " + s.getPerfilSeguidor() + " "
+                + "AND seguidores.perfilSeguido = " + s.getPerfilSeguido() + " LIMIT 1";
+
         con.ejecutar(query);
     }
 
@@ -168,9 +175,9 @@ public class Data {
 
     public List<Publicacion> getPublicaciones(int id) throws SQLException {
 
-        query = "SELECT publicaciones.fecha, publicaciones.contenido " +
-                "FROM publicaciones " +
-                "WHERE usuario =  " + id;
+        query = "SELECT publicaciones.fecha, publicaciones.contenido "
+                + "FROM publicaciones "
+                + "WHERE usuario =  " + id;
         rs = con.ejecutarSelect(query);
 
         Publicacion p;
@@ -307,6 +314,11 @@ public class Data {
 
         query = "UPDATE perfil SET descripcion = '" + p.getDescripcion() + "' WHERE usuario = " + p.getUsuario();
         System.out.println("update data");
+        con.ejecutar(query);
+    }
+    
+    public void updateContrasenia(Usuario u) throws SQLException{
+        query="UPDATE usuario SET contrasenia = "+u.getContrasenia()+" WHERE id = "+u.getId();
         con.ejecutar(query);
     }
 

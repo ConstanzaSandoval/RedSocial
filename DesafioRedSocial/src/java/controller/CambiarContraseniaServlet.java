@@ -11,15 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Data;
-import model.Perfil;
 import model.Usuario;
 
 /**
  *
  * @author Conny
  */
-@WebServlet(name = "CrearUsuario", urlPatterns = {"/crearUsuario.do"})
-public class CrearUsuario extends HttpServlet {
+@WebServlet(name = "CambiarContraseniaServlet", urlPatterns = {"/cambiarContrasenia.do"})
+public class CambiarContraseniaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,43 +34,25 @@ public class CrearUsuario extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
+            if(request.getParameter("btnCambiar")!= null){
+            
             Data d = new Data();
             
-            String email = request.getParameter("txtCorreo");
-            String contrasenia= request.getParameter("txtContrasenia");
-            String nombre= request.getParameter("txtNombre");
-            String fechaN = request.getParameter("txtFechaNacimineto");
-            int sexo = Integer.parseInt(request.getParameter("selSexo"));
-            System.out.println(email+contrasenia+nombre+fechaN);
             Usuario u = new Usuario();
             
-            String[] vectFecha = fechaN.split(" de ");
-                //d.getMes obtiene el número del mes
-            String fechaNacimiento = vectFecha[2] + "-" + d.getMes(vectFecha[1].toLowerCase()) + "-" + vectFecha[0];
-
+            u.setContrasenia(request.getParameter("txtContrasenia"));
+            u.setId(Integer.parseInt(request.getParameter("idUs")));
             
+            d.updateContrasenia(u);
+            response.sendRedirect("Perfil.jsp");
             
-            u.setNombre(nombre);
-            u.setEmail(email);
-            u.setEdad(fechaNacimiento);
-            u.setSexo(sexo);
-            u.setContrasenia(contrasenia);
+            }
             
-            d.crearUsuario(u);
-            
-            Perfil p = new Perfil();
-            String ruta = request.getParameter("txtRuta");
-            p.setDescripcion("  ");
-            p.setUsuario(d.getIdUltimoUsuario());
-            p.setFoto(ruta);
-            d.crearPerfil(p);
-            
-            response.sendRedirect("Index.jsp");
             
         } catch (SQLException ex) {
-            Logger.getLogger(CrearUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CambiarContraseniaServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CrearUsuario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CambiarContraseniaServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
