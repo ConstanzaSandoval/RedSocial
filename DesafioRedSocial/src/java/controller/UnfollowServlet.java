@@ -43,7 +43,7 @@ public class UnfollowServlet extends HttpServlet {
 
                 d.unfollow(s);
                 
-                response.sendRedirect("buscar.do?filtro="+filtro);
+                response.sendRedirect("Buscar.jsp?filtro="+filtro);
 
             }else{
                 response.sendRedirect("Index.jsp");

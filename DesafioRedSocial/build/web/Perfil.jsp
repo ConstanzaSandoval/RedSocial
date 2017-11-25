@@ -78,7 +78,7 @@
     %>
 <center>
 
-    <div class="card bg-light mb-3" style="max-width: 45rem; margin-left: 30px" >
+    <div class="card bg-light mb-3" style="max-width: 45rem; margin-left: 150px" >
         <div class="card-header"><h1> <%out.println(u.getNombre());%></h1></div>
         <div class="card-body">
             <h4 class="card-title"> <%

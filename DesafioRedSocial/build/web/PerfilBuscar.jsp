@@ -41,7 +41,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <form action="buscar.do" method="post">
+                            <form action="Buscar.jsp" method="post">
                                 <div class="col-lg-6">
                                     <div class="input-group" style="width: 300px;">
                                         <input  type="text" name="filtro"class="form-control" placeholder="Buscar..." aria-label="Buscar..." />
@@ -80,7 +80,7 @@
     %>
 
 <center>
-    <div class="card bg-light mb-3" style="max-width: 45rem; margin-left: 30px; margin-top: 10px" >
+    <div class="card bg-light mb-3" style="max-width: 45rem; margin-left: 150px; margin-top: 10px" >
         <div class="card-header"><h1> <%=us.getNombre()%></h1></div>
         <div class="card-body">
             <h4 class="card-title"> 

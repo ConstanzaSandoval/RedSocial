@@ -35,7 +35,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <form action="buscar.do" method="post">
+                            <form action="Buscar.jsp" method="post">
                                 <div class="col-lg-6">
                                     <div class="input-group" style="width: 300px;">
                                         <input  type="text" name="filtro"class="form-control" placeholder="Buscar..." aria-label="Buscar..." />

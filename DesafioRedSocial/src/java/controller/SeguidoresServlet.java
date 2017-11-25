@@ -45,7 +45,7 @@ public class SeguidoresServlet extends HttpServlet {
                 s.setPerfilSeguido(idSeguido);
                 s.setPerfilSeguidor(idSeguidor);
                 d.crearSeguidores(s);
-                response.sendRedirect("buscar.do?filtro=" + filtro);
+                response.sendRedirect("Buscar.jsp?filtro=" + filtro);
 
             }
 

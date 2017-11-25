@@ -40,7 +40,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <form action="buscar.do" method="post">
+                            <form action="Buscar.jsp" method="post">
                                 <div class="col-lg-6">
                                     <div class="input-group" style="width: 300px;">
                                         <input  type="text" name="filtro"class="form-control" placeholder="Buscar..." aria-label="Buscar..." />
@@ -72,36 +72,40 @@
             if (usu.getId() != u.getId()) {%>
 
 <center>
-    <div class="input-group" style="width: 400px; ">
-        <a class="list-group-item list-group-item-action list-group-item-success" href="PerfilBuscar.jsp?id=<%=usu.getId()%>"><%=usu.getNombre()%></a>
+    <div class="input-group" style="width: 400px; margin-top: 20px; ">
+        <br>
+        <br>
+        <a style="margin-left: 50px;" class="list-group-item list-group-item-action list-group-item-success" href="PerfilBuscar.jsp?id=<%=usu.getId()%>"><%=usu.getNombre()%></a>
         <%
             Seguidores s = new Seguidores();
             s.setPerfilSeguido(usu.getId());
             s.setPerfilSeguidor(u.getId());
 
             if (d.getSeguido(s) == null) {%>
-        <span class="input-group-btn">
-            <form action='seguidores.do' method='post'> 
-                <input type="hidden" name="txtIdSeguido" value="<%=usu.getId()%> " /> 
-                <input type="hidden" name="txtIdSeguidor" value="<%=u.getId()%> " /> 
-                <input type="hidden" name="txtFiltro" value="<%=request.getParameter("filtro")%>" /> 
-                <button class="btn btn-outline-secondary" type="submit" name="btnSeguir" >Seguir</button>
-            </form>
+        <span class="input-group-btn" >
+            <form action="seguidores.do" method="post"> 
+                <input type="hidden" name="txtIdSeguido" value=<%=usu.getId()%>  /> 
+                <input type="hidden" name="txtIdSeguidor" value=<%=u.getId()%>  /> 
+                <input type="hidden" name="txtFiltro" value=<%=request.getParameter("filtro")%> /> 
+                <button style="margin-left: 10px;" class="btn btn-outline-secondary" type="submit" name="btnSeguir" >Seguir</button>
+                <br>
+                <br>
+            </form >
         </span>
         <%
         } else {%>
-        <form action='unfollow.do' method='post'> 
-            <input type="hidden" name="txtIdSeguido" value="<%=usu.getId()%> " /> 
-            <input type="hidden" name="txtIdSeguidor" value="<%=u.getId()%> " /> 
-            <input type="hidden" name="txtFiltro" value="<%=request.getParameter("filtro")%>" /> 
-            <input type="submit" name="btnUnfollow" value="Dejar de seguir"/>
+        <form action="unfollow.do" method="post"> 
+            <input type="hidden" name="txtIdSeguido" value=<%=usu.getId()%>  /> 
+            <input type="hidden" name="txtIdSeguidor" value=<%=u.getId()%>  /> 
+            <input type="hidden" name="txtFiltro" value=<%=request.getParameter("filtro")%> /> 
+            <input  class="btn btn-outline-secondary" type="submit" name="btnUnfollow" value="Dejar de seguir"/> <br> <br>
         </form> 
     </div>
     <%
                     }
                 }
 
-            }
+            }   out.print("<br>");
         } else {
             response.sendRedirect("Index.jsp");
         }%>
